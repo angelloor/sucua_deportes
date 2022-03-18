@@ -41,6 +41,17 @@ export const validation = (calendario: Calendario, url: string) => {
 						.catch((error: any) => {
 							reject(error);
 						});
+				} else if (url.substring(0, 12) == '/bySerieRead') {
+					/** set required attributes for action */
+					_calendario.serie = calendario.serie;
+					await _calendario
+						.bySerieRead()
+						.then((_calendario: Calendario[]) => {
+							resolve(_calendario);
+						})
+						.catch((error: any) => {
+							reject(error);
+						});
 				}
 			}
 		}

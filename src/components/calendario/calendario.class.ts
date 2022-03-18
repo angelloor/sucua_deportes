@@ -6,6 +6,7 @@ import { Serie } from '../serie/serie.class';
 import { _serie } from '../serie/serie.data';
 import {
 	view_calendario,
+	view_calendario_by_serie_read,
 	view_calendario_specific_read,
 } from './calendario.store';
 
@@ -164,6 +165,23 @@ export class Calendario {
 					const _calendarios = this.mutateResponse(calendarios);
 
 					resolve(_calendarios[0]);
+				})
+				.catch((error: any) => {
+					reject(error);
+				});
+		});
+	}
+
+	bySerieRead() {
+		return new Promise<Calendario[]>(async (resolve, reject) => {
+			await view_calendario_by_serie_read(this)
+				.then((calendarios: Calendario[]) => {
+					/**
+					 * Mutate response
+					 */
+					const _calendarios = this.mutateResponse(calendarios);
+
+					resolve(_calendarios);
 				})
 				.catch((error: any) => {
 					reject(error);

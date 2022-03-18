@@ -25,4 +25,14 @@ routerTablaPosicion.get('/specificRead/:id', async (req: any, res: any) => {
 		});
 });
 
+routerTablaPosicion.get('/bySerieRead/:serie', async (req: any, res: any) => {
+	await validation(req.params, req.url)
+		.then((tablaPosicion: TablaPosicion) => {
+			res.status(200).send(tablaPosicion);
+		})
+		.catch((err: Mensaje | any) => {
+			error(res, err);
+		});
+});
+
 export { routerTablaPosicion };

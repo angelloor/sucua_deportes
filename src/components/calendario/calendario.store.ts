@@ -60,3 +60,26 @@ export const view_calendario_specific_read = (calendario: Calendario) => {
 		}
 	});
 };
+
+export const view_calendario_by_serie_read = (calendario: Calendario) => {
+	return new Promise<Calendario[]>(async (resolve, reject) => {
+		const query = `select ${COLUMNS_RETURN} from view_calendario vc${INNERS_JOIN} where vc.idserie = ${calendario.serie}`;
+
+		// console.log(query);
+
+		try {
+			await clientSucuaDeportesMySQL.query(
+				query,
+				(error: any, results: any) => {
+					if (error) {
+						reject(error.toString());
+					} else if (results) {
+						resolve(results);
+					}
+				}
+			);
+		} catch (error: any) {
+			reject(error.toString());
+		}
+	});
+};

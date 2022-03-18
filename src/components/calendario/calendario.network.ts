@@ -25,4 +25,14 @@ routerCalendario.get('/specificRead/:id', async (req: any, res: any) => {
 		});
 });
 
+routerCalendario.get('/bySerieRead/:serie', async (req: any, res: any) => {
+	await validation(req.params, req.url)
+		.then((calendario: Calendario) => {
+			res.status(200).send(calendario);
+		})
+		.catch((err: Mensaje | any) => {
+			error(res, err);
+		});
+});
+
 export { routerCalendario };

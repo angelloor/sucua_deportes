@@ -6,6 +6,7 @@ import { Serie } from '../serie/serie.class';
 import { _serie } from '../serie/serie.data';
 import {
 	view_tabla_posicion,
+	view_tabla_posicion_by_serie_read,
 	view_tabla_posicion_specific_read,
 } from './tabla_posicion.store';
 
@@ -164,6 +165,23 @@ export class TablaPosicion {
 					const _tablaPosicions = this.mutateResponse(tablaPosicions);
 
 					resolve(_tablaPosicions[0]);
+				})
+				.catch((error: any) => {
+					reject(error);
+				});
+		});
+	}
+
+	bySerieRead() {
+		return new Promise<TablaPosicion[]>(async (resolve, reject) => {
+			await view_tabla_posicion_by_serie_read(this)
+				.then((tablaPosicions: TablaPosicion[]) => {
+					/**
+					 * Mutate response
+					 */
+					const _tablaPosicions = this.mutateResponse(tablaPosicions);
+
+					resolve(_tablaPosicions);
 				})
 				.catch((error: any) => {
 					reject(error);

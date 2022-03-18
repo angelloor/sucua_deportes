@@ -41,6 +41,17 @@ export const validation = (tabla_posicion: TablaPosicion, url: string) => {
 						.catch((error: any) => {
 							reject(error);
 						});
+				} else if (url.substring(0, 12) == '/bySerieRead') {
+					/** set required attributes for action */
+					_tabla_posicion.serie = tabla_posicion.serie;
+					await _tabla_posicion
+						.bySerieRead()
+						.then((_tablaPosicion: TablaPosicion[]) => {
+							resolve(_tablaPosicion);
+						})
+						.catch((error: any) => {
+							reject(error);
+						});
 				}
 			}
 		}

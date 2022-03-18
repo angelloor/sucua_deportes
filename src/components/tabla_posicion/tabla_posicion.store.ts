@@ -61,3 +61,28 @@ export const view_tabla_posicion_specific_read = (
 		}
 	});
 };
+
+export const view_tabla_posicion_by_serie_read = (
+	tabla_posicion: TablaPosicion
+) => {
+	return new Promise<TablaPosicion[]>(async (resolve, reject) => {
+		const query = `select ${COLUMNS_RETURN} from view_tabla_posicion vtp${INNERS_JOIN} where vtp.idserie = ${tabla_posicion.serie}`;
+
+		// console.log(query);
+
+		try {
+			await clientSucuaDeportesMySQL.query(
+				query,
+				(error: any, results: any) => {
+					if (error) {
+						reject(error.toString());
+					} else if (results) {
+						resolve(results);
+					}
+				}
+			);
+		} catch (error: any) {
+			reject(error.toString());
+		}
+	});
+};
