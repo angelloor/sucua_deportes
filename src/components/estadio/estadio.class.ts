@@ -52,7 +52,12 @@ export class Estadio {
 		return new Promise<Estadio[]>(async (resolve, reject) => {
 			await view_estadio(this)
 				.then((estadios: Estadio[]) => {
-					resolve(estadios);
+					/**
+					 * Mutate response
+					 */
+					const _estadios = this.mutateResponse(estadios);
+
+					resolve(_estadios);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -64,7 +69,12 @@ export class Estadio {
 		return new Promise<Estadio>(async (resolve, reject) => {
 			await view_estadio_specific_read(this)
 				.then((estadios: Estadio[]) => {
-					resolve(estadios[0]);
+					/**
+					 * Mutate response
+					 */
+					const _estadios = this.mutateResponse(estadios);
+
+					resolve(_estadios[0]);
 				})
 				.catch((error: any) => {
 					reject(error);

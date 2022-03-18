@@ -54,7 +54,12 @@ export class Equipo {
 		return new Promise<Equipo[]>(async (resolve, reject) => {
 			await view_equipo(this)
 				.then((equipos: Equipo[]) => {
-					resolve(equipos);
+					/**
+					 * Mutate response
+					 */
+					const _equipos = this.mutateResponse(equipos);
+
+					resolve(_equipos);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -66,7 +71,12 @@ export class Equipo {
 		return new Promise<Equipo>(async (resolve, reject) => {
 			await view_equipo_specific_read(this)
 				.then((equipos: Equipo[]) => {
-					resolve(equipos[0]);
+					/**
+					 * Mutate response
+					 */
+					const _equipos = this.mutateResponse(equipos);
+
+					resolve(_equipos[0]);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -85,6 +95,26 @@ export class Equipo {
 		equipos.map((item: any) => {
 			let _equipo: Equipo | any = {
 				...item,
+				id: item.ve_id,
+				serie: {
+					idserie: item.ve_idserie,
+					campeonato: {
+						idcampeonato: item.vs_idcampeonato,
+						codigo: item.vc_codigo,
+						nombre: item.vc_nombre,
+						periodo: item.vc_periodo,
+						fechareg: item.vc_fechareg,
+						estado: item.vc_estado,
+						creadopor: item.vc_creadopor,
+						observaciones: item.vc_observaciones,
+					},
+					codigo: item.vs_codigo,
+					genero: item.vs_genero,
+					descripcion: item.vs_descripcion,
+					estado: item.vs_estado,
+				},
+				nombre: item.ve_nombre,
+				estado: item.ve_estado,
 				/**
 				 * Generate structure of second level the entity (is important add the ids of entity)
 				 * similar the return of read
@@ -93,7 +123,22 @@ export class Equipo {
 			/**
 			 * delete ids of principal object level
 			 */
-			delete _equipo.id_preparacion_academica;
+			delete _equipo.ve_id;
+			delete _equipo.ve_idserie;
+			delete _equipo.ve_nombre;
+			delete _equipo.ve_estado;
+			delete _equipo.vs_idcampeonato;
+			delete _equipo.vs_codigo;
+			delete _equipo.vs_genero;
+			delete _equipo.vs_descripcion;
+			delete _equipo.vs_estado;
+			delete _equipo.vc_codigo;
+			delete _equipo.vc_nombre;
+			delete _equipo.vc_periodo;
+			delete _equipo.vc_fechareg;
+			delete _equipo.vc_estado;
+			delete _equipo.vc_creadopor;
+			delete _equipo.vc_observaciones;
 
 			_equipos.push(_equipo);
 		});

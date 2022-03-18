@@ -15,7 +15,7 @@ export const view_calendario = (calendario: Calendario) => {
 	return new Promise<Calendario[]>(async (resolve, reject) => {
 		const query = `select ${COLUMNS_RETURN} from view_calendario vc${INNERS_JOIN}${
 			calendario.observaciones != 'query-all'
-				? ` where lower(vc.observaciones) LIKE '%${calendario.observaciones}%'`
+				? ` where lower(ve.nombre) LIKE '%${calendario.observaciones}%'`
 				: ``
 		} order by vc.id desc`;
 

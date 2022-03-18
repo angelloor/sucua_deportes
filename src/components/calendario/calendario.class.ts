@@ -182,6 +182,14 @@ export class Calendario {
 		calendarios.map((item: any) => {
 			let _calendario: Calendario | any = {
 				...item,
+				id: item.vc_idcalendario,
+				numfecha: item.vc_numfecha,
+				fechapartido: item.vc_fechapartido,
+				horapartido: item.vc_horapartido,
+				observaciones: item.vc_observaciones,
+				usuario: item.vc_usuario,
+				fechareg: item.vc_fechareg,
+				estado: item.vc_estado,
 				estadio: {
 					idestadio: item.vc_idestadio,
 					nombre: item.ve_nombre,
@@ -215,8 +223,6 @@ export class Calendario {
 					nombre: item.nombreequipob,
 					estado: item.estadoequipob,
 				},
-				observaciones: item.vc_observaciones,
-				fechareg: item.vc_fechareg,
 				/**
 				 * Generate structure of second level the entity (is important add the ids of entity)
 				 * similar the return of read
@@ -230,6 +236,13 @@ export class Calendario {
 			delete _calendario.vc_idserie;
 			delete _calendario.vc_idequipoa;
 			delete _calendario.vc_idequipob;
+			delete _calendario.vc_numfecha;
+			delete _calendario.vc_fechapartido;
+			delete _calendario.vc_horapartido;
+			delete _calendario.vc_observaciones;
+			delete _calendario.vc_usuario;
+			delete _calendario.vc_fechareg;
+			delete _calendario.vc_estado;
 			delete _calendario.ve_nombre;
 			delete _calendario.ve_descripcion;
 			delete _calendario.ve_estado;

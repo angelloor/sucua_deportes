@@ -4,7 +4,7 @@ import { Partido } from './partido.class';
 /**
  * Inners and columns for the resolution of ids
  */
-const COLUMNS_RETURN: string = `vp.id as idpartido, vp.idcalendario, vp.idcampeonato, vp.idserie, vp.estado, vc.numfecha, vc.fechapartido, vc.horapartido, vc.observaciones, vc.usuario, vc.fechareg, vc.estado, vca.codigo, vca.nombre, vca.periodo, vca.fechareg, vca.estado, vca.creadopor, vca.observaciones`;
+const COLUMNS_RETURN: string = `vp.id as vp_id, vp.idcalendario as vp_idcalendario, vp.idcampeonato as vp_idcampeonato, vp.idserie as vp_idserie, vp.estado as vp_estado, vc.numfecha as vc_numfecha, vc.fechapartido as vc_fechapartido, vc.horapartido as vc_horapartido, vc.observaciones as vc_observaciones, vc.usuario as vc_usuario, vc.fechareg as vc_fechareg, vc.estado as vc_estado, vca.codigo as vca_codigo, vca.nombre as vca_nombre, vca.periodo as vca_periodo, vca.fechareg as vca_fechareg, vca.estado as vca_estado, vca.creadopor as vca_creadopor, vca.observaciones as vca_observaciones`;
 const INNERS_JOIN: string = ` inner join calendario vc on vp.idcalendario = vc.id
 inner join campeonato vca on vp.idcampeonato = vca.id`;
 
@@ -12,7 +12,7 @@ export const view_partido = (partido: Partido) => {
 	return new Promise<Partido[]>(async (resolve, reject) => {
 		const query = `select ${COLUMNS_RETURN} from view_partido vp${INNERS_JOIN}${
 			partido.estado != 'query-all'
-				? ` where lower(vp.estado) LIKE '%${partido.estado}%'`
+				? ` where lower(vca.nombre) LIKE '%${partido.estado}%'`
 				: ``
 		} order by vp.id desc`;
 

@@ -66,7 +66,12 @@ export class Partido {
 		return new Promise<Partido[]>(async (resolve, reject) => {
 			await view_partido(this)
 				.then((partidos: Partido[]) => {
-					resolve(partidos);
+					/**
+					 * Mutate response
+					 */
+					const _partidos = this.mutateResponse(partidos);
+
+					resolve(_partidos);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -78,7 +83,12 @@ export class Partido {
 		return new Promise<Partido>(async (resolve, reject) => {
 			await view_partido_specific_read(this)
 				.then((partidos: Partido[]) => {
-					resolve(partidos[0]);
+					/**
+					 * Mutate response
+					 */
+					const _partidos = this.mutateResponse(partidos);
+
+					resolve(_partidos[0]);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -97,6 +107,31 @@ export class Partido {
 		partidos.map((item: any) => {
 			let _partido: Partido | any = {
 				...item,
+				id: item.vp_id,
+				calendario: {
+					idcalendario: item.vp_idcalendario,
+					numfecha: item.vc_numfecha,
+					fechapartido: item.vc_fechapartido,
+					horapartido: item.vc_horapartido,
+					observaciones: item.vc_observaciones,
+					usuario: item.vc_usuario,
+					fechareg: item.vc_fechareg,
+					estado: item.vc_estado,
+				},
+				campeonato: {
+					idcampeonato: item.vp_idcampeonato,
+					codigo: item.vca_codigo,
+					nombre: item.vca_nombre,
+					periodo: item.vca_periodo,
+					fechareg: item.vca_fechareg,
+					estado: item.vca_estado,
+					creadopor: item.vca_creadopor,
+					observaciones: item.vca_observaciones,
+				},
+				serie: {
+					idserie: item.vp_idserie,
+				},
+				estado: item.vp_estado,
 				/**
 				 * Generate structure of second level the entity (is important add the ids of entity)
 				 * similar the return of read
@@ -105,7 +140,25 @@ export class Partido {
 			/**
 			 * delete ids of principal object level
 			 */
-			delete _partido.id_preparacion_academica;
+			delete _partido.vp_id;
+			delete _partido.vp_idcalendario;
+			delete _partido.vp_idcampeonato;
+			delete _partido.vp_idserie;
+			delete _partido.vp_estado;
+			delete _partido.vc_numfecha;
+			delete _partido.vc_fechapartido;
+			delete _partido.vc_horapartido;
+			delete _partido.vc_observaciones;
+			delete _partido.vc_usuario;
+			delete _partido.vc_fechareg;
+			delete _partido.vc_estado;
+			delete _partido.vca_codigo;
+			delete _partido.vca_nombre;
+			delete _partido.vca_periodo;
+			delete _partido.vca_fechareg;
+			delete _partido.vca_estado;
+			delete _partido.vca_creadopor;
+			delete _partido.vca_observaciones;
 
 			_partidos.push(_partido);
 		});

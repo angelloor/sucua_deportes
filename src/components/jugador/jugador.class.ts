@@ -104,7 +104,12 @@ export class Jugador {
 		return new Promise<Jugador[]>(async (resolve, reject) => {
 			await view_jugador(this)
 				.then((jugadors: Jugador[]) => {
-					resolve(jugadors);
+					/**
+					 * Mutate response
+					 */
+					const _jugadors = this.mutateResponse(jugadors);
+
+					resolve(_jugadors);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -116,7 +121,12 @@ export class Jugador {
 		return new Promise<Jugador>(async (resolve, reject) => {
 			await view_jugador_specific_read(this)
 				.then((jugadors: Jugador[]) => {
-					resolve(jugadors[0]);
+					/**
+					 * Mutate response
+					 */
+					const _jugadors = this.mutateResponse(jugadors);
+
+					resolve(_jugadors[0]);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -135,6 +145,36 @@ export class Jugador {
 		jugadors.map((item: any) => {
 			let _jugador: Jugador | any = {
 				...item,
+				id: item.vj_id,
+				cedula: item.vj_cedula,
+				equipo: {
+					idequipo: item.vj_idequipo,
+					serie: {
+						idserie: item.ve_idserie,
+						campeonato: {
+							idcampeonato: item.vs_idcampeonato,
+							codigo: item.vc_codigo,
+							nombre: item.vc_nombre,
+							periodo: item.vc_periodo,
+							fechareg: item.vc_fechareg,
+							estado: item.vc_estado,
+							creadopor: item.vc_creadopor,
+							observaciones: item.vc_observaciones,
+						},
+						codigo: item.vs_codigo,
+						genero: item.vs_genero,
+						descripcion: item.vs_descripcion,
+						estado: item.vs_estado,
+					},
+					nombre: item.ve_nombre,
+					estado: item.ve_estado,
+				},
+				nombre: item.vj_nombre,
+				apellido: item.vj_apellido,
+				fechanac: item.vj_fechanac,
+				telefono: item.vj_telefono,
+				direccion: item.vj_direccion,
+				estado: item.vj_estado,
 				/**
 				 * Generate structure of second level the entity (is important add the ids of entity)
 				 * similar the return of read
@@ -143,7 +183,30 @@ export class Jugador {
 			/**
 			 * delete ids of principal object level
 			 */
-			delete _jugador.id_preparacion_academica;
+			delete _jugador.vj_id;
+			delete _jugador.vj_cedula;
+			delete _jugador.vj_idequipo;
+			delete _jugador.vj_nombre;
+			delete _jugador.vj_apellido;
+			delete _jugador.vj_fechanac;
+			delete _jugador.vj_telefono;
+			delete _jugador.vj_direccion;
+			delete _jugador.vj_estado;
+			delete _jugador.ve_idserie;
+			delete _jugador.ve_nombre;
+			delete _jugador.ve_estado;
+			delete _jugador.vs_idcampeonato;
+			delete _jugador.vs_codigo;
+			delete _jugador.vs_genero;
+			delete _jugador.vs_descripcion;
+			delete _jugador.vs_estado;
+			delete _jugador.vc_codigo;
+			delete _jugador.vc_nombre;
+			delete _jugador.vc_periodo;
+			delete _jugador.vc_fechareg;
+			delete _jugador.vc_estado;
+			delete _jugador.vc_creadopor;
+			delete _jugador.vc_observaciones;
 
 			_jugadors.push(_jugador);
 		});

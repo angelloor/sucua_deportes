@@ -4,7 +4,7 @@ import { Equipo } from './equipo.class';
 /**
  * Inners and columns for the resolution of ids
  */
-const COLUMNS_RETURN: string = `ve.id as idequipo, ve.idserie, ve.nombre, ve.estado, vs.idcampeonato, vs.codigo, vs.genero, vs.descripcion, vs.estado, vc.codigo, vc.nombre, vc.periodo, vc.fechareg, vc.estado, vc.creadopor, vc.observaciones`;
+const COLUMNS_RETURN: string = `ve.id as ve_id, ve.idserie as ve_idserie, ve.nombre as ve_nombre, ve.estado as ve_estado, vs.idcampeonato as vs_idcampeonato, vs.codigo as vs_codigo, vs.genero as vs_genero, vs.descripcion as vs_descripcion, vs.estado as vs_estado, vc.codigo as vc_codigo, vc.nombre as vc_nombre, vc.periodo as vc_periodo, vc.fechareg as vc_fechareg, vc.estado as vc_estado, vc.creadopor as vc_creadopor, vc.observaciones as vc_observaciones`;
 const INNERS_JOIN: string = ` inner join serie vs on ve.idserie = vs.id
 inner join campeonato vc on vs.idcampeonato = vc.id`;
 

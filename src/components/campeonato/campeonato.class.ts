@@ -95,7 +95,12 @@ export class Campeonato {
 		return new Promise<Campeonato[]>(async (resolve, reject) => {
 			await view_campeonato(this)
 				.then((campeonatos: Campeonato[]) => {
-					resolve(campeonatos);
+					/**
+					 * Mutate response
+					 */
+					const _campeonatos = this.mutateResponse(campeonatos);
+
+					resolve(_campeonatos);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -107,7 +112,12 @@ export class Campeonato {
 		return new Promise<Campeonato>(async (resolve, reject) => {
 			await view_campeonato_specific_read(this)
 				.then((campeonatos: Campeonato[]) => {
-					resolve(campeonatos[0]);
+					/**
+					 * Mutate response
+					 */
+					const _campeonatos = this.mutateResponse(campeonatos);
+
+					resolve(_campeonatos[0]);
 				})
 				.catch((error: any) => {
 					reject(error);

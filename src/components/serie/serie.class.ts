@@ -74,7 +74,12 @@ export class Serie {
 		return new Promise<Serie[]>(async (resolve, reject) => {
 			await view_serie(this)
 				.then((series: Serie[]) => {
-					resolve(series);
+					/**
+					 * Mutate response
+					 */
+					const _series = this.mutateResponse(series);
+
+					resolve(_series);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -86,7 +91,12 @@ export class Serie {
 		return new Promise<Serie>(async (resolve, reject) => {
 			await view_serie_specific_read(this)
 				.then((series: Serie[]) => {
-					resolve(series[0]);
+					/**
+					 * Mutate response
+					 */
+					const _series = this.mutateResponse(series);
+
+					resolve(_series[0]);
 				})
 				.catch((error: any) => {
 					reject(error);
@@ -105,6 +115,21 @@ export class Serie {
 		series.map((item: any) => {
 			let _serie: Serie | any = {
 				...item,
+				id: item.vs_id,
+				campeonato: {
+					idcampeonato: item.vs_idcampeonato,
+					codigo: item.vc_codigo,
+					nombre: item.vc_nombre,
+					periodo: item.vc_periodo,
+					fechareg: item.vc_fechareg,
+					estado: item.vc_estado,
+					creadopor: item.vc_creadopor,
+					observaciones: item.vc_observaciones,
+				},
+				codigo: item.vs_codigo,
+				genero: item.vs_genero,
+				descripcion: item.vs_descripcion,
+				estado: item.vs_estado,
 				/**
 				 * Generate structure of second level the entity (is important add the ids of entity)
 				 * similar the return of read
@@ -113,7 +138,19 @@ export class Serie {
 			/**
 			 * delete ids of principal object level
 			 */
-			delete _serie.id_preparacion_academica;
+			delete _serie.vs_id;
+			delete _serie.vs_idcampeonato;
+			delete _serie.vs_codigo;
+			delete _serie.vs_genero;
+			delete _serie.vs_descripcion;
+			delete _serie.vs_estado;
+			delete _serie.vc_codigo;
+			delete _serie.vc_nombre;
+			delete _serie.vc_periodo;
+			delete _serie.vc_fechareg;
+			delete _serie.vc_estado;
+			delete _serie.vc_creadopor;
+			delete _serie.vc_observaciones;
 
 			_series.push(_serie);
 		});
